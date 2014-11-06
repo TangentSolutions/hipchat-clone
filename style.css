@@ -367,3 +367,30 @@ h2
 	background-color:#516884;
 	color:#fff;
 }
+#create_topic_div
+{
+	position:absolute;
+	bottom:10px;
+	left:10px;
+}
+#topic_create
+{
+	width:120px;
+	height:25px;
+}
+#topic_create_btn
+{
+	width:55px;
+	height:30px;
+	background-color:#ec8c25;
+	color:#FFF;
+	letter-spacing:1px;
+	border-radius:5px;
+	font-size:13px;
+	border-style:solid;
+	border-width:2px;
+	border-color:#c26400;
+	padding-left:4px;
+	margin-top:5px;
+	cursor:pointer;
+}

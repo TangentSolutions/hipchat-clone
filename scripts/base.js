@@ -38,7 +38,6 @@ $(document).ready (function ()
 $(window).load (function ()
 {
 	set_layout ();
-	
 	$(window).resize (function ()
 	{
 		set_layout ();

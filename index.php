@@ -8,7 +8,12 @@ if ($GLOBALS ['user']->isLoggedIn() == true)
 	echo "<div id=\"main_container\">";
 	//logged in
 	navigation ();
-	if (isset ($_GET ['topic']))
+	if (isset ($_POST ['newtopic']))
+	{
+		$GLOBALS ['conn']->query ("INSERT INTO bz_category (name) VALUES ('".$_POST ['newtopic']."')");
+		$topic = $GLOBALS ['conn']->insert_id;
+	}
+	else if (isset ($_GET ['topic']))
 	{
 		$topic = $_GET ['topic'];
 	}
@@ -30,10 +35,17 @@ if ($GLOBALS ['user']->isLoggedIn() == true)
         console.log("Login Succeeded!", authData);
       }
     });
-    
+   
+	fbase.once ("value", function (snapshot) {
+		var historytest = snapshot.hasChildren();
+		if (historytest === false)
+		{
+			$('#chatarea').html ("No Messages Sent Yet");
+		}
+	});
     fbase.on("child_added", function(snapshot) {
+		 
       var data = snapshot.val();
-	  var temp = $('#chatarea').html ();
 	  // create a new javascript Date object based on the timestamp
 	var date = new Date(data.time);
 	// hours part from the timestamp
@@ -62,7 +74,7 @@ if ($GLOBALS ['user']->isLoggedIn() == true)
 			temptext += "<div class=\"msgarea\">"+data.message+"</div>";
 			temptext += "<div class=\"timearea\">"+formattedTime+"</div>";
 		temptext += "</div>";
-	if (temp == "Loading...")
+	if ($('#chatarea').html () == "Loading..." || $('#chatarea').html () == "No Messages Sent Yet")
 	{
 	  	$('#chatarea').html (temptext);
 	}
@@ -79,13 +91,19 @@ if ($GLOBALS ['user']->isLoggedIn() == true)
 			{
 				echo "<a href=\"index.php?topic=".$row ['categoryId']."\"><li";
 				
-				if ($row ['categoryId'] == $_GET ['topic'])
+				if ($row ['categoryId'] == $topic)
 					echo " class=\"selected\" ";
 				
 				echo">".$row ['name']."</li></a>";
 			}
 			?>
             </ul>
+            <div id="create_topic_div">
+            	<form method="post">
+            		<input type="text" name="newtopic" id="topic_create" placeholder="New Topic" /> 
+                	<input type="submit" value="Create" id="topic_create_btn" />
+                </form>
+            </div>
         </div>
         <div id="chatarea" class="fulllength">Loading...</div>
         <textarea id="chattext" placeholder="Type Message Here"></textarea>
