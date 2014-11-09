@@ -290,6 +290,7 @@ h2
 	left:0px;
 	top:50px;
 	width:200px;
+	display:block;
 }
 #chatright
 {
@@ -429,4 +430,128 @@ h2
 	position:absolute;
 	top:60px;
 	width:100%;
+}
+#mobilenav
+{
+	display:none;
+}
+
+/* -----------Smartphone View----------- */ 
+@media only screen and (max-width : 900px) and (min-width : 700px)
+{
+	.namearea
+	{
+		position:relative;
+		height:30px;
+		width:100%;
+		background-color:#D9D9D9;
+		padding-right:10px;
+		text-align:left;
+		font-size:12px;
+		font-weight:bold;
+		color:#4F4F4F;
+		line-height:30px;
+	}
+	.msgarea
+	{
+		position:relative;
+		height:100%;
+		left:0px;
+		top:0px;
+		padding-left:20px;
+		line-height:30px;
+		font-size:14px;
+	}
+	.timearea
+	{
+		display:none;
+	}
+	#chatarea
+	{
+		position:absolute;
+		overflow:hidden;
+		left:200px;
+		top:50px;
+		padding-left:0px;
+		padding-right:0px;
+		background-color:#EEE;
+	}
+}
+
+/* -----------Smartphone View----------- */ 
+@media only screen and (max-width : 700px)   
+{
+	.namearea
+	{
+		position:relative;
+		height:30px;
+		width:100%;
+		background-color:#D9D9D9;
+		padding-right:10px;
+		text-align:left;
+		font-size:12px;
+		font-weight:bold;
+		color:#4F4F4F;
+		line-height:30px;
+	}
+	.msgarea
+	{
+		position:relative;
+		height:100%;
+		left:0px;
+		top:0px;
+		padding-left:20px;
+		line-height:30px;
+		font-size:14px;
+	}
+	.timearea
+	{
+		display:none;
+	}
+	#chatleft
+	{
+		z-index:90;
+		display:none;
+	}
+	#chatright
+	{
+		display:none;
+	}
+	#chatarea
+	{
+		position:absolute;
+		overflow:hidden;
+		left:0px;
+		top:50px;
+		padding-left:0px;
+		padding-right:0px;
+		background-color:#EEE;
+	}
+	#chatsubmit
+	{
+		right:10px;
+	}
+	#chattext
+	{
+		left:1px;
+	}
+	#nav_left
+	{
+		display:none;
+	}
+	.navs
+	{
+		font-size:12px;
+	}
+	#mobilenav
+	{
+		display:block;
+		position:relative;
+		z-index:100;
+		top:-5px;
+	}
+	#nav_right
+	{
+		right:5px;
+	}
 }

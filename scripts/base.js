@@ -47,7 +47,7 @@ $(document).ready (function ()
 
 $(window).load (function ()
 {
-	$("#chatarea").niceScroll();
+	$("#chatarea").niceScroll({horizrailenabled:false});
 	set_layout ();
 	ping_update ()
 	$(window).resize (function ()
@@ -65,12 +65,32 @@ function set_layout ()
 	$('.fulllength').css ("height", window_height-50);
 	$('#chatarea').css ("width", chatsize);
 	$('#chatarea').css ("height", (window_height-110));
-	$('#chattext').css ("width", (chatsize-80));
-	//var chatheight = $("#chatarea").height ();
-	//$("#chatarea").niceScroll();
+	
 	$("#chatarea").getNiceScroll().resize();
 	$("#chatarea").scrollTop($("#chatarea").prop("scrollHeight"));
-	$('.msgarea').css ("width", (chatsize-340));
+	if (window_width < 1000 && window_width >= 900)
+	{
+		$('.msgarea').css ("width", (chatsize-190));
+		$('.timearea').fadeOut (0);
+		$('#chattext').css ("width", (chatsize-80));
+	}
+	else if (window_width < 900 && window_width >= 700)
+	{
+		$('.msgarea').css ("width", chatsize-15);
+		$('#chattext').css ("width", (chatsize-80));
+	}
+	else if (window_width < 700)
+	{
+		$('#chatarea').css ("width", window_width);
+		$('.msgarea').css ("width", window_width-35);
+		$('#chattext').css ("width", (window_width-120));
+	}
+	else
+	{
+		$('.msgarea').css ("width", (chatsize-340));
+		$('.timearea').fadeIn (0);
+		$('#chattext').css ("width", (chatsize-80));
+	}
 }
 
 function add_chat ()
@@ -153,4 +173,9 @@ function delete_user (loginId)
 			$('#display_users').html (returndata);
 		}
 	});
+}
+
+function toggle_menu ()
+{
+	$('#chatleft').animate({width: 'toggle'});
 }

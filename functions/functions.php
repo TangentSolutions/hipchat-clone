@@ -28,6 +28,7 @@ function head ($title)
     <script type="text/javascript" src="scripts/jquery.nicescroll.min.js"></script>
     <script type="text/javascript" src="scripts/base.js"></script>
     <script type="text/javascript" src="scripts/sha1.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     </head>
     <body>
@@ -36,7 +37,6 @@ function head ($title)
 function body_end ()
 {
 	?>
-    </div>
     </body>
     </html>
     <?php
@@ -184,7 +184,7 @@ function navigation ()
 	$next = 2;
 	?>
     
-    <!--<a href="javascript: toggle_menu ()"><img src="images/mobile_menu_button.png" id="mobile_menu" /></a>-->
+    <a href="javascript: toggle_menu ()" id="mobilenav"><img src="images/mobile_menu_button.png" id="mobile_menu" width="40" /></a>
     <div id="navigation">
     	<div id="nav_left">
         	Welcome <?php echo $GLOBALS ['user']->getDetail ('Name'); ?>
