@@ -317,9 +317,10 @@ h2
 }
 .msgarea
 {
-	position:absolute;
+	position:relative;
 	height:100%;
 	left:150px;
+	top:0px;
 	padding-left:20px;
 	line-height:30px;
 	font-size:14px;
@@ -329,10 +330,12 @@ h2
 	position:absolute;
 	height:100%;
 	right:20px;
+	top:0px;
 	color:#666;
 	font-size:12px;
 	font-color:#333;
 	line-height:30px;
+	width:150px;
 }
 #topicheading
 {
@@ -393,4 +396,13 @@ h2
 	padding-left:4px;
 	margin-top:5px;
 	cursor:pointer;
+}
+
+.mymsg .namearea
+{
+	background-color:#c8d0e7;
+}
+.mymsg
+{
+	background-color:#d9deea;
 }

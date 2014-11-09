@@ -83,7 +83,6 @@ function ajaxhead ()
 	header("Cache-Control: no-store, no-cache, must-revalidate");
 	header("Cache-Control: post-check=0, pre-check=0", false);
 	header("Pragma: no-cache"); 
-	dbconn ();
 }
 
 function randomString($length = 50) 
@@ -203,5 +202,28 @@ function navigation ()
         </div>
     </div>
     <?php
+}
+
+function create_category ($name)
+{
+	$GLOBALS ['conn']->query ("INSERT INTO bz_category (name) VALUES ('$name')");
+	$topic = $GLOBALS ['conn']->insert_id;
+	return $topic;
+}
+
+function default_category ()
+{
+	$result = $GLOBALS['conn']->query ("SELECT categoryId FROM bz_category WHERE active = 1 ORDER BY categoryId ASC LIMIT 1");
+	if ($result->num_rows > 0)
+	{
+		$row = $result->fetch_assoc ();
+		$topic = $row ['categoryId'];
+	}
+	else
+	{
+		//no active topics exist
+		$topic = create_category ("BizChat");
+	}
+	return $topic;
 }
 ?>

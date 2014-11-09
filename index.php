@@ -10,19 +10,42 @@ if ($GLOBALS ['user']->isLoggedIn() == true)
 	navigation ();
 	if (isset ($_POST ['newtopic']))
 	{
-		$GLOBALS ['conn']->query ("INSERT INTO bz_category (name) VALUES ('".$_POST ['newtopic']."')");
-		$topic = $GLOBALS ['conn']->insert_id;
+		$topic = create_category ($_POST ['newtopic']);
 	}
 	else if (isset ($_GET ['topic']))
 	{
 		$topic = $_GET ['topic'];
+		$result = $GLOBALS['conn']->query ("SELECT active FROM bz_category WHERE categoryId = $topic");
+		if ($result->num_rows > 0)
+		{
+			$row = $result->fetch_assoc ();
+			if ($row ['active'] == 1)
+			{
+				//topic checks out
+			}
+			else
+			{
+				//topic has been deleted
+				$topic = default_category ();
+			}
+		}
+		else
+		{
+			//topic does not exist
+			$topic = default_category ();
+		}
 	}
 	else
-		$topic = "";
+	{
+		//no topic in query string
+		$topic = default_category ();
+	}
+	//update lastTopicId and lastPing in login table
+	$GLOBALS['conn']->query ("UPDATE bz_login SET lastCategoryId = $topic, lastActive = '".date ("Y-m-d G:i:s")."', lastPing = '".date ("Y-m-d G:i:s")."' WHERE loginId = ".$GLOBALS['user']->getDetail ("loginId"));
 	include ("php-jwt-master/Authentication/JWT.php");
     include_once "FirebaseToken.php";
     $tokenGen = new Services_FirebaseTokenGenerator(SECRET_KEY);
-    $token = $tokenGen->createToken(array("uid" => $GLOBALS ['user']->getDetail ('loginId')));
+    $token = $tokenGen->createToken(array("uid" => $GLOBALS ['user']->getDetail ('loginId'), "name" => $GLOBALS ['user']->getDetail ('name')));
 	?>
     <script src='https://cdn.firebase.com/js/client/1.1.1/firebase.js'></script>
     <script type="text/javascript">
@@ -69,9 +92,14 @@ if ($GLOBALS ['user']->isLoggedIn() == true)
 			curr_month = "0" + curr_month;
 		formattedTime = curr_date + "-" + curr_month + "-" + curr_year + " " + formattedTime;
 	}
-	var temptext = "<div class=\"chatmsg\">";
+	var temptext = "<div class=\"chatmsg";
+	if (data.userid == <?php echo $GLOBALS ['user']->getDetail ('loginId'); ?>)
+	{
+		temptext += " mymsg";
+	}
+	temptext += "\">";
 			temptext += "<div class=\"namearea\">"+data.name+"</div>";
-			temptext += "<div class=\"msgarea\">"+data.message+"</div>";
+			temptext += "<div class=\"msgarea\">"+nl2br(data.message)+"</div>";
 			temptext += "<div class=\"timearea\">"+formattedTime+"</div>";
 		temptext += "</div>";
 	if ($('#chatarea').html () == "Loading..." || $('#chatarea').html () == "No Messages Sent Yet")
@@ -80,6 +108,7 @@ if ($GLOBALS ['user']->isLoggedIn() == true)
 	}
 	else
 	    $('#chatarea').append (temptext);
+	set_layout ();
     });
     </script>
         <div id="chatleft" class="fulllength">
@@ -108,6 +137,8 @@ if ($GLOBALS ['user']->isLoggedIn() == true)
         <div id="chatarea" class="fulllength">Loading...</div>
         <textarea id="chattext" placeholder="Type Message Here"></textarea>
         <input type="hidden" id="chatname" value="<?php echo $GLOBALS ['user']->getDetail ('name'); ?>" />
+        <input type="hidden" id="userid" value="<?php echo $GLOBALS ['user']->getDetail ('loginId'); ?>" />
+        <input type="hidden" id="topic" value="<?php echo $topic; ?>" />
         <input type="button" id="chatsubmit" onclick="add_chat ()" value="Send" />
         <div id="chatright" class="fulllength"></div>
     </div>
