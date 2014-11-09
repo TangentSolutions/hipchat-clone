@@ -280,6 +280,7 @@ h2
 	border-width:2px;
 	border-color:#324c97;
 	padding-left:7px;
+	padding-right:7px;
 	margin-top:10px;
 	cursor:pointer;
 }
@@ -530,6 +531,11 @@ h2
 	#chatsubmit
 	{
 		right:10px;
+		font-size:13px;
+	}
+	#topic_create_btn
+	{
+		font-size:11px;
 	}
 	#chattext
 	{
@@ -549,6 +555,7 @@ h2
 		position:relative;
 		z-index:100;
 		top:-5px;
+		width:40px;
 	}
 	#nav_right
 	{

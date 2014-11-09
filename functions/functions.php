@@ -28,7 +28,7 @@ function head ($title)
     <script type="text/javascript" src="scripts/jquery.nicescroll.min.js"></script>
     <script type="text/javascript" src="scripts/base.js"></script>
     <script type="text/javascript" src="scripts/sha1.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale:1.0, user-scalable=no" />
     <link rel="stylesheet" href="style.css" />
     </head>
     <body>
@@ -165,6 +165,7 @@ function login ()
 {
 	?>
     <div class="loginbox">
+    <div style="width:207px; position:relative; margin-left:auto; margin-right:auto">
         <h2>Login</h2>
         <form action="processlogin.php" method="post" onsubmit="login_enc();">
         <div style="margin-bottom:15px;"><?php if (isset ($_GET ['incp'])) echo "<span style=\"font-size:12px; color:red;\">Incorrect email or password. Please try again</span>"; ?>&nbsp;</div>
@@ -175,6 +176,7 @@ function login ()
         </div>
         <div class="textfielddiv"><input type="submit" class="submitfield" value="Login" /></div>
         </form>
+    </div>
     </div>
 <?php
 }
