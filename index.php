@@ -1,5 +1,4 @@
 <?php
-error_reporting (-1);
 include ("functions/functions.php");
 
 head("Home Page");
@@ -121,7 +120,7 @@ if ($GLOBALS ['user']->isLoggedIn() == true)
 			$result = $GLOBALS ['conn']->query ("SELECT categoryId, name FROM bz_category WHERE active = 1");
 			while ($row = $result->fetch_assoc())
 			{
-				echo "<a href=\"index.php?topic=".$row ['categoryId']."\" onclick=\"return delete_topic(0)\"><li";
+				echo "<a href=\"index.php?topic=".$row ['categoryId']."\"><li";
 				
 				if ($row ['categoryId'] == $topic)
 					echo " class=\"selected\" ";

@@ -96,6 +96,8 @@ function ping_update ()
 		data:senddata,
 		success: function(returndata)
 		{
+			if (returndata.refresh == 1)
+				location.reload ();
 			var num = returndata.online.length;
 			$('#chatright').html ("<ul id=\"online\">");
 			for (var i = 0; i < num; i++)
@@ -134,6 +136,21 @@ function delete_topic (categoryId)
 		success:function (returndata)
 		{
 			location.reload ();
+		}
+	});
+}
+
+function delete_user (loginId)
+{
+	var senddata = "loginId="+loginId;
+	$.ajax (
+	{
+		url:"ajax/set-delete-user.php",
+		data:senddata,
+		type:"POST",
+		success:function (returndata)
+		{
+			$('#display_users').html (returndata);
 		}
 	});
 }

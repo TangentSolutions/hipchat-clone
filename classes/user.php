@@ -38,7 +38,14 @@ class User
 		$result = $GLOBALS ['conn']->query("SELECT * FROM ".db_prefix()."_login WHERE loginId = $userId");
 		if ($result->num_rows > 0)
 		{
-			$this->user = $result->fetch_assoc();
+			while ($row = $result->fetch_assoc())
+			{
+				foreach ($row as $detail=>$value)
+				{
+					$detail = strtolower ($detail);
+					$this->user [$detail] = $value;
+				}
+			}
 			$this->add_user_details ();
 		}
 	}
@@ -151,11 +158,11 @@ class User
 		$registration_date = date ("Y-m-d");
 		$sql = "INSERT INTO ".db_prefix()."_login (email, userType, password) VALUES ('".$this->user ['email']."',".$this->user ['usertype'].",'".$this->user ['password']."')";
 		$result = $GLOBALS ['conn']->query ($sql);
-		$this->user ['loginId'] = $GLOBALS ['conn']->insert_id;
+		$this->user ['loginid'] = $GLOBALS ['conn']->insert_id;
 		$sql = "INSERT INTO ".db_prefix()."_user_details (loginId, name, value) VALUES (".$this->user ['loginid'].",'dateRegistered','$registration_date');\n";
 		foreach ($this->user as $detail=>$value)
 		{
-			if (strcmp ($detail, "userType") == 0 || strcmp ($detail, "email") == 0 || strcmp ($detail, "password") == 0 || strcmp ($detail, "loginId") == 0)
+			if (strcmp (strtolower ($detail), "usertype") == 0 || strcmp ($detail, "email") == 0 || strcmp ($detail, "password") == 0 || strcmp (strtolower ($detail), "loginid") == 0)
 			{
 				//do nothing
 			}

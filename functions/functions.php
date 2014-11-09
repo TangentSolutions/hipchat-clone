@@ -100,6 +100,7 @@ function randomString($length = 50)
 function user_registration ($userType = 0, $redirect)
 {
 	?>
+    <div style="position:relative;">
     <form method="post" action="processregistration.php" onsubmit="return register();">
     	<input type="hidden" name="redirect" value="<?php echo $redirect; ?>" />
         <div class="textfielddiv">
@@ -110,17 +111,15 @@ function user_registration ($userType = 0, $redirect)
         </div>
         <div class="textfielddiv">
         	<input type="password" class="textfield" name="password" id="password" placeholder="Chosen Password" />
-            <!--<div class="passwordtip" onclick="focustextbox ('password','passtip1')" id="passtip1">Chosen Password</div>-->
         </div>
         <div class="textfielddiv">
         	<input type="password" class="textfield" name="confirm" id="confirm"  placeholder="Confirm Password" />
-        	<!--<div class="passwordtip" onclick="focustextbox ('confirm','passtip2')" id="passtip2">Confirm Password</div>-->
         </div>
         <?php
 		if ($userType == 0)
 		{
         	echo "<div class=\"textfielddiv\">";
-        	echo "<select name=\"userType\">";
+        	echo "<select name=\"userType\" class=\"textfield\">";
 			$result = $GLOBALS ['conn']->query("SELECT userType, name FROM ".db_prefix()."_user_type");
 			while ($row = $result->fetch_assoc())
 			{
@@ -135,6 +134,7 @@ function user_registration ($userType = 0, $redirect)
 		?>
         <div class="textfielddiv"><input type="submit" class="submitfield" value="Next" /></div>
     </form>
+    </div>
     <?php
 }
 
@@ -225,5 +225,29 @@ function default_category ()
 		$topic = create_category ("BizChat");
 	}
 	return $topic;
+}
+
+function display_users ()
+{
+	echo "<h2>View Users</h2>";
+			echo "<table cellspacing=\"0\" cellpadding=\"5\" border=\"1\">";
+				echo "<tr>";
+					echo "<th>Name</th><th>Email</th><th>Last Activity</th><th>User Type</th><th>Delete</th>";
+				echo "</tr>";
+	$result = $GLOBALS['conn']->query ("SELECT * FROM bz_login, bz_user_details WHERE bz_login.loginId = bz_user_details.loginId AND bz_user_details.name LIKE 'name'");
+	while ($row = $result->fetch_assoc ())
+	{
+				echo "<tr>";
+					echo "<td>".$row ['value']."</td>";
+					echo "<td>".$row ['email']."</td>";
+					echo "<td>".$row ['lastActive']."</td>";
+					if (intval ($row ['userType']) == 1)
+						echo "<td>Admin</td>";
+					else
+						echo "<td>User</td>";
+					echo "<td align=\"center\"><a href=\"javascript: delete_user (".$row ['loginId'].")\"><img src=\"images/cross.png\"></a></td>";
+				echo "</tr>";
+	}
+			echo "</table>";
 }
 ?>

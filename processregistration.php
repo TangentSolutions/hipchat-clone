@@ -9,7 +9,7 @@ if ($GLOBALS ['user']->getDetail ('userType') == 1 || $count == 0)
 	$userData = array ();
 	$userData ['email'] = $_POST ['email'];
 	$userData ['name'] = $_POST ['name'];
-	$userData ['userType'] = $_POST ['userType'];
+	$userData ['usertype'] = $_POST ['userType'];
 	$userData ['password'] = $_POST ['password'];
 	$redirect = $_POST ['redirect'];
 	
