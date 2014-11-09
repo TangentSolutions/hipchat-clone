@@ -36,7 +36,13 @@ function login_enc ()
 
 $(document).ready (function ()
 {
-	
+	$('#chattext').keydown (function (e)
+	{
+		if(e.which == 13 && e.shiftKey == false)
+		{
+			add_chat ();
+		}
+	});
 });
 
 $(window).load (function ()
@@ -58,8 +64,8 @@ function set_layout ()
 	$('#main_container').css ("height", window_height);
 	$('.fulllength').css ("height", window_height-50);
 	$('#chatarea').css ("width", chatsize);
-	$('#chatarea').css ("height", (window_height-140));
-	$('#chattext').css ("width", (chatsize-100));
+	$('#chatarea').css ("height", (window_height-110));
+	$('#chattext').css ("width", (chatsize-80));
 	//var chatheight = $("#chatarea").height ();
 	//$("#chatarea").niceScroll();
 	$("#chatarea").getNiceScroll().resize();
@@ -114,5 +120,20 @@ function ping_activity_update ()
 	{
 		url:"ajax/set-ping-activity.php",
 		type:"GET",
+	});
+}
+
+function delete_topic (categoryId)
+{
+	var senddata = "categoryId="+categoryId;
+	$.ajax (
+	{
+		url:"ajax/set-delete-category.php",
+		data:senddata,
+		type:"POST",
+		success:function (returndata)
+		{
+			location.reload ();
+		}
 	});
 }

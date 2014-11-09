@@ -113,20 +113,31 @@ if ($GLOBALS ['user']->isLoggedIn() == true)
     </script>
         <div id="chatleft" class="fulllength">
         	<h2 id="topicheading">Select Topic</h2>
+            <div style="position:relative">
         	<ul id="topics">
         	<?php
+			$top = 5;
+			$delbtns = "";
 			$result = $GLOBALS ['conn']->query ("SELECT categoryId, name FROM bz_category WHERE active = 1");
 			while ($row = $result->fetch_assoc())
 			{
-				echo "<a href=\"index.php?topic=".$row ['categoryId']."\"><li";
+				echo "<a href=\"index.php?topic=".$row ['categoryId']."\" onclick=\"return delete_topic(0)\"><li";
 				
 				if ($row ['categoryId'] == $topic)
 					echo " class=\"selected\" ";
 				
-				echo">".$row ['name']."</li></a>";
+				echo ">".$row ['name'];
+				echo "</li></a>";
+				if ($GLOBALS ['user']->getDetail ('userType') == 1)
+				{
+					$delbtns .= "<div class=\"deletetopic\" style=\"top:".$top."px !important;\"><img src=\"images/cross.png\" onclick=\"delete_topic (".$row ['categoryId'].")\"></div>";
+					$top += 27;
+				}
 			}
 			?>
             </ul>
+            <?php echo $delbtns; ?>
+            </div>
             <div id="create_topic_div">
             	<form method="post">
             		<input type="text" name="newtopic" id="topic_create" placeholder="New Topic" /> 
